@@ -1,0 +1,128 @@
+﻿@model TrainingManagmentClient.Models.User
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>User</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.userName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.userName, new { htmlAttributes = new { @class = "form-control", @id = "name" } })
+            @Html.ValidationMessageFor(model => model.userName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.firstName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.firstName, new { htmlAttributes = new { @class = "form-control", @id = "firstName" } })
+            @Html.ValidationMessageFor(model => model.firstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.lastName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.lastName, new { htmlAttributes = new { @class = "form-control", @id = "lastName" } })
+            @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.emailID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.emailID, new { htmlAttributes = new { @class = "form-control", @id = "emailid" } })
+            @Html.ValidationMessageFor(model => model.emailID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @id = "password" } })
+            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DateofJoin, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DateofJoin, new { htmlAttributes = new { @class = "form-control", @id = "DateOfjoin" } })
+            @Html.ValidationMessageFor(model => model.DateofJoin, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.managerID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.managerID, (IEnumerable
+            <SelectListItem>)ViewBag.managerList, new { @id = "managerid" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.roleID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.roleID, (IEnumerable
+            <SelectListItem>)ViewBag.roleList,new {@id="roleid" })
+        </div>
+    </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Create" class="btn btn-default" id="btnCreate" />
+            </div>
+        </div>
+    </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnCreate").click(function () {
+                var data = {
+                    userName: $("#name").val(),
+                    firstName: $("#firstName").val(),
+                    lastName: $("#lastName").val(),
+                    emailID: $("#emailid").val(),
+                    password: $("#password").val(),
+                    DateOfJoin: $("#DateOfjoin").val(),
+                    managerID: $("#managerid").val(),
+                    roleID: $("#roleid").val()
+                   
+                };
+                alert(data.userName + "" + data.firstName + "" + data.lastName + "" + data.emailID + "" + data.password + "" + data.DateOfJoin + "" + data.managerID + "" + data.roleID)
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: "https://localhost:44336/api/users",
+                        data: JSON.stringify(data),
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "Json",
+                        success: function (data) {
+                            alert('Record is inserted')
+                        },
+                        error: function (data) {
+                            alert(data)
+                        },
+                    });
+            });
+        });
+    </script>
